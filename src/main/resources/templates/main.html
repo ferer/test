@@ -1,0 +1,64 @@
+<div th:replace="~{layout/header :: header}"></div>
+<div class="container p-4">
+    <div class="row" th:each="poll : ${listPolls[2]}">
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-header">
+                    <h3 th:text="${poll.poll}"></h3>
+                </div>
+                <div class="card-body">
+                    <div class="col-md-10">
+                        <div class="row">
+                            <p th:text="${poll.responses}"></p>
+                            &nbsp;
+                            <p >Respuestas</p>
+                        </div>
+                    </div>
+                    <a class="btn btn-info" th:href="@{/details?id=} + ${poll.id}">
+                        Details
+                    </a>
+                    <script type="text/javascript">
+                        var poll = "[[${poll.poll}]]";
+                        var idpoll = "[[${poll.id}]]";
+                    </script>
+                    <button type="button" class="btn btn-danger" data-toggle="modal"
+                            data-target="#deleteModal"
+                            onclick="deletePoll(idpoll, poll)">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="text-center">
+    <article th:utext="${listPolls[0]}"></article>
+    <br />
+    <article th:utext="${listPolls[1]}"></article>
+</div>
+<div class="modal fade" id="deleteModal" tabindex="-1" 
+     role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">¿Esta seguro de eliminar la encuesta?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h3 id="titlePoll"></h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <a id="idPoll" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    </div> 
+</div>
+<script type="text/javascript">
+    function deletePoll(id, poll) {
+        document.getElementById("titlePoll").innerHTML = poll;
+        document.getElementById('idPoll').setAttribute('href', '/delete?id=' + id);
+    }
+</script>
+<div th:replace="~{layout/footer :: footer}"></div>
